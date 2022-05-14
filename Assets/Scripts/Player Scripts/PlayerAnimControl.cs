@@ -28,4 +28,9 @@ public class PlayerAnimControl : MonoBehaviour
     {
         playerAnim.SetTrigger(AnimationTags.RunFlip_Trig);
     }
+
+    public void Death(bool isDead)
+    {
+        playerAnim.SetBool(AnimationTags.PlayerDeath, isDead);
+    }
 }
