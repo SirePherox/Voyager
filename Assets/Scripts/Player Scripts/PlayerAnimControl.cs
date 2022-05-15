@@ -5,9 +5,14 @@ using UnityEngine;
 public class PlayerAnimControl : MonoBehaviour
 {
     private Animator playerAnim;
+    private UIManager uiManScript;
 
-    private void Awake() => playerAnim = GetComponent<Animator>();
-   public void Run(bool move)
+    private void Awake()
+    {
+        playerAnim = GetComponent<Animator>();
+        uiManScript = GameObject.FindGameObjectWithTag("UI Manager").GetComponent<UIManager>();
+    }
+    public void Run(bool move)
     {
         playerAnim.SetBool(AnimationTags.Run, move);
     }
@@ -32,5 +37,11 @@ public class PlayerAnimControl : MonoBehaviour
     public void Death(bool isDead)
     {
         playerAnim.SetBool(AnimationTags.PlayerDeath, isDead);
+    }
+
+    public void DisplayGameOverUI()
+    {
+        //this func is called as an anim event , when the death anim plays
+        uiManScript.gameOverUi.SetActive(true);
     }
 }

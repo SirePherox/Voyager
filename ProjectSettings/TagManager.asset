@@ -7,6 +7,8 @@ TagManager:
   - collider
   - Game Manager
   - Asteroid
+  - Obstacle
+  - UI Manager
   layers:
   - Default
   - TransparentFX
