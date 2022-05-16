@@ -34,10 +34,10 @@ public class PlayerController : MonoBehaviour
     public GameObject asteroidPrefab;
     void Awake()
     {
-       playerAnimScript = GetComponentInChildren<PlayerAnimControl>();
-       childTransform = GetComponentInChildren<Transform>().position;
+        playerAnimScript = GetComponentInChildren<PlayerAnimControl>();
+        childTransform = GetComponentInChildren<Transform>().position;
         gameManScript = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
-       canResetPos = true;
+        canResetPos = true;
     }
 
     private void Start()
@@ -68,18 +68,18 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        
-        if (player_Can_move )
+
+        if (player_Can_move)
         {
             playerAnimScript.Run(true);
             transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
 
-            if(Input.GetKeyDown(KeyCode.UpArrow) || (Input.GetKeyDown(KeyCode.W)))
+            if (Input.GetKeyDown(KeyCode.UpArrow) || (Input.GetKeyDown(KeyCode.W)))
             {
                 playerAnimScript.Jump();
                 transform.Translate(Vector3.up * Time.deltaTime * jumpForce);
             }
-            else if(Input.GetKeyDown(KeyCode.DownArrow) || (Input.GetKeyDown(KeyCode.S)))
+            else if (Input.GetKeyDown(KeyCode.DownArrow) || (Input.GetKeyDown(KeyCode.S)))
             {
                 playerAnimScript.Slide();
             }
@@ -92,14 +92,14 @@ public class PlayerController : MonoBehaviour
                 playerAnimScript.TwistFlip();
             }
 
-            
+
         }
 
         //call functions
         MoveLeft();
         MoveRight();
-       
-       
+
+
     }
 
     private void CanSwipe()
@@ -110,8 +110,8 @@ public class PlayerController : MonoBehaviour
         {
             canMoveLeft = true;
             canMoveRight = true;
-        }  
-        else if(playerPos.x >= 2)
+        }
+        else if (playerPos.x >= 2)
         {
             canMoveRight = false;
             canMoveLeft = true;
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
             return;
         if (canMoveLeft)
         {
-            if(playerInput == -1)
+            if (playerInput == -1)
             {
                 transform.Translate(Vector3.left * playerChangePosOffset * Time.deltaTime);
                 Debug.Log("pressed left");
@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
         if (canResetPos)
         {
             transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
-            childTransform =  new Vector3(transform.position.x, 0f, transform.position.z);
+            childTransform = new Vector3(transform.position.x, 0f, transform.position.z);
         }
     }
 
@@ -161,13 +161,13 @@ public class PlayerController : MonoBehaviour
     {
         asteroidPos.z = asteriodZOffset;
         asteroidPos.y = asteroidPosY;
-        asteroidPos.x = Random.Range(-posX , posX);
+        asteroidPos.x = Random.Range(-posX, posX);
         Instantiate(asteroidPrefab, childTransform + transform.TransformPoint(asteroidPos), Quaternion.identity);
     }
 
     void TimerToInstantiateAsteroid()
     {
-       if (currentTime >= 0.0f)
+        if (currentTime >= 0.0f)
             timerCanRun = true;
         defaultTime = Random.Range(0.2f, 2.5f);
         if (timerCanRun)

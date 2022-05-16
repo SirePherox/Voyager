@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 5781785420578013464}
   - component: {fileID: 5737099015073608165}
   - component: {fileID: 6487468388251212152}
+  - component: {fileID: 832556387781477866}
   m_Layer: 0
   m_Name: Asteroids
-  m_TagString: Asteroid
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,3 +113,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &832556387781477866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6922326151039935612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f695464c08ea3e468250ce12a071743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

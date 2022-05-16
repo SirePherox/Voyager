@@ -22,18 +22,16 @@ public class PlayerChildMove : MonoBehaviour
     private GameManager gameManScript;
     private UIManager uiManScript;
 
-    
 
-    
-    public Vector3 instantiateOffset = new Vector3(0,0,10);
+    public Vector3 instantiateOffset;
 
     public GameObject asteroidPrefab;
-    public Vector3 asteroidPos;  
+    public Vector3 asteroidPos;
     public float asteroidPosX = 2f;
     public float asteroidPosY = 5.0f;
     public float asteroidMinTime = 1.0f;
     public float asteroidmaxTime = 3.0f;
-  
+
 
     public GameObject lavaRockPrefab;
     public Vector3 lavaRockPos;
@@ -57,7 +55,7 @@ public class PlayerChildMove : MonoBehaviour
 
     private void Start()
     {
-        // currentTime = 2.0f;
+        instantiateOffset = new Vector3(0, 0, 30);
         timerCanRun = true;
     }
 
@@ -76,9 +74,15 @@ public class PlayerChildMove : MonoBehaviour
         {
             player_Can_move = true;
         }
-        else if(gameManScript.isGameOver)
+        else if (gameManScript.isGameOver)
         {
             player_Can_move = false;
+            isGame_Over = true;
+        }
+
+        //game bugs , if player falls below the stage
+        if (playerPos.y < -10f)
+        {
             isGame_Over = true;
         }
         //
@@ -89,6 +93,7 @@ public class PlayerChildMove : MonoBehaviour
             MovePlayer();
             CanSwipe();
             InstantiateAllObstacles();
+            MakeGameDifficult(distCovered); //use players dist to make game more diffficult
         }
 
     }
@@ -138,12 +143,12 @@ public class PlayerChildMove : MonoBehaviour
             canMoveLeft = true;
             canMoveRight = true;
         }
-         if (playerPos.x >= playerPosXMax)
+        if (playerPos.x >= playerPosXMax)
         {
             canMoveRight = false;
             canMoveLeft = true;
         }
-        if (playerPos.x <= -playerPosXMax )
+        if (playerPos.x <= -playerPosXMax)
         {
             canMoveRight = true;
             canMoveLeft = false;
@@ -159,7 +164,6 @@ public class PlayerChildMove : MonoBehaviour
             if (playerInput == -1)
             {
                 transform.Translate(Vector3.left * playerChangePosOffset * Time.deltaTime);
-                Debug.Log("pressed left");
             }
         }
     }
@@ -171,14 +175,13 @@ public class PlayerChildMove : MonoBehaviour
         if (canMoveRight && playerInput == 1)
         {
             transform.Translate(Vector3.right * playerChangePosOffset * Time.deltaTime);
-            print("pressed right");
         }
     }
 
 
- 
 
-    void InstantiateObstacle(GameObject obstacle , Vector3 instantiatePos , float minTime , float maxTime)
+
+    void InstantiateObstacle(GameObject obstacle, Vector3 instantiatePos, float minTime, float maxTime)
     {
         //time the instantiation
         float timeToInstantiate = Random.Range(minTime, maxTime);
@@ -186,34 +189,74 @@ public class PlayerChildMove : MonoBehaviour
         {
             timerCanRun = true;
         }
-       
+
         if (timerCanRun)
         {
             currentTime -= Time.deltaTime;
-            if(currentTime <= 0.0f)
+            if (currentTime <= 0.0f)
             {
                 timerCanRun = false;
                 currentTime = timeToInstantiate;
                 //Instantiate the obstacle
-                Vector3 posToInstantiate = transform.position + transform.TransformPoint(instantiateOffset + instantiatePos); //offset given pos by player positon &
-                Debug.Log("sud print and instantiate");                                                                                                          //a little offset of Z
+                Vector3 posToInstantiate = transform.position + (instantiatePos); //offset given pos by player positon &
+                                                                                  //a little offset of Z
                 Instantiate(obstacle, posToInstantiate, Quaternion.identity);
             }
         }
-        print("hot here");
     }
 
     void InstantiateAllObstacles()
     {
         //asteroid
-        asteroidPos.x = Random.Range(-asteroidPosX,asteroidPosX);
+        asteroidPos.x = Random.Range(-asteroidPosX, asteroidPosX);
         asteroidPos.y = asteroidPosY;
+        asteroidPos.z = instantiateOffset.z;
         InstantiateObstacle(asteroidPrefab, asteroidPos, asteroidMinTime, asteroidmaxTime);
 
         //lava rock
         lavaRockPos.x = Random.Range(-lavaRockPosX, lavaRockPosX);
         lavaRockPos.y = lavaRockPosY;
+        lavaRockPos.z = instantiateOffset.z;
         InstantiateObstacle(lavaRockPrefab, lavaRockPos, lavaRockMinTime, lavaRockMaxTime);
+
+    }
+
+    void MakeGameDifficult(float pos)
+    {
+        if (pos > 10000f)
+        {
+            lavaRockMaxTime = 0.6f;
+
+            asteroidmaxTime = 1.1f;
+
+            instantiateOffset.z = 10f;
+        }
+        else if (pos > 8000f)
+        {
+            lavaRockMaxTime = 1.0f;
+            lavaRockPosX = 1.2f;
+
+            asteroidmaxTime = 1.5f;
+            asteroidPosX = 1.5f;
+
+            instantiateOffset.z = 15f;
+        }
+        else if (pos > 4000f)
+        {
+            lavaRockMaxTime = 1.5f;
+
+            asteroidmaxTime = 2.0f;
+
+            instantiateOffset.z = 20f;
+        }
+        else if (pos > 2000f)
+        {
+            lavaRockMaxTime = 2.0f;
+
+            asteroidmaxTime = 2.5f;
+
+            instantiateOffset.z = 25f;
+        }
 
     }
 }

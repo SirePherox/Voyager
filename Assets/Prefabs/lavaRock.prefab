@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4723163977265798368}
   - component: {fileID: 7143935433278549383}
   - component: {fileID: 1253130128507441163}
+  - component: {fileID: 1618226415087242401}
   m_Layer: 0
   m_Name: lavaRock
   m_TagString: Obstacle
@@ -112,3 +113,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.23929891, y: 0.3397289, z: 0.19555654}
   m_Center: {x: 0.009816393, y: 0.019357588, z: 0.02090116}
+--- !u!114 &1618226415087242401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7143935433278549382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f695464c08ea3e468250ce12a071743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

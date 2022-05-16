@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI playerDistText;
     public TextMeshProUGUI playerDistYearsText;
     public TextMeshProUGUI playerHighScoreText;
+    public TextMeshProUGUI playerHighScoreNameText;
 
     //scripts references
     private PlayerChildMove playerChildScript;
@@ -46,6 +47,7 @@ public class UIManager : MonoBehaviour
 
         //call functions    
         DisplayHighScore();
+        DisplayHighName();
     }
 
 
@@ -67,23 +69,55 @@ public class UIManager : MonoBehaviour
     private void SetHighScore(int highScoreToSet)
     {
 
-            PlayerPrefs.SetInt(Tags.phsScore, playerDistYears);
+        PlayerPrefs.SetInt(Tags.phsScore, playerDistYears);
     }
 
     private void DisplayHighScore()
     {
         int savedScore = GetHighScore();
         int currentScore = playerDistYears;
-        if(currentScore > savedScore)
+        if (currentScore > savedScore)
         {
             SetHighScore(currentScore);
             playerHighScoreText.text = currentScore.ToString();
+
+            //also sets currentPlayerName to the highPlayerName
+            if (PlayerPrefs.HasKey(Tags.cpName))
+            {
+                SetHighName(PlayerPrefs.GetString(Tags.cpName));
+            }
+            else
+            {
+                SetHighName("Anonymous");
+            }
+            //
         }
-        else if(currentScore < savedScore)
+        else if (currentScore < savedScore)
         {
             playerHighScoreText.text = savedScore.ToString();
         }
     }
 
+    private string GetHighName()
+    {
+        if (PlayerPrefs.HasKey(Tags.phsName))
+        {
+            string highName = PlayerPrefs.GetString(Tags.phsName);
+            return highName;
+        }
+        else
+        {
+            return "Anonymous";
+        }
+    }
+    private void SetHighName(string highNameToSet)
+    {
+        PlayerPrefs.SetString(Tags.phsName, highNameToSet);
+    }
+    private void DisplayHighName()
+    {
+        string nameToDisplay = GetHighName();
+        playerHighScoreNameText.text = nameToDisplay;
+    }
 
 }

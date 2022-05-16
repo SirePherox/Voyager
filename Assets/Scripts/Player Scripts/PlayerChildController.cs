@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class PlayerChildController : MonoBehaviour
 {
+    //THE SCRIPT "PLAYERCONTROLLER" IS NOT USED BY ANY GAMEOBJECT
+    //not PLAYERCHILDCONTROLLER
     private GameManager gameManScript;
-    //private PlayerController playControlScript;
+    
     private PlayerAnimControl myAnim;
     // Start is called before the first frame update
     private void Awake()
     {
         gameManScript = GameObject.FindGameObjectWithTag(Tags.GameMan).GetComponent<GameManager>();
- 
+
 
         myAnim = GetComponent<PlayerAnimControl>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
 
 
@@ -29,7 +26,6 @@ public class PlayerChildController : MonoBehaviour
         if (other.CompareTag(Tags.Stage_Collider))
         {
             gameManScript.InstantiateStage();
-
         }
     }
 
@@ -37,7 +33,6 @@ public class PlayerChildController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(Tags.Obstacle_Tag))
         {
-            print("game over");
             myAnim.Death(true);
             gameManScript.isGameOver = true;
         }
